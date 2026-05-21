@@ -139,3 +139,47 @@
 - 조금 많이 특별한.. 부모 클래스라고 생각하자
     - 다중 상속을 지원한다
     - 구현이 불가능하다
+
+
+# 으악
+- C++ 콜백 = 함수포인터호출
+
+
+# Delegate
+- C#에서 함수를 하나의 자료형으로 정의하는 것
+- 사용방법
+    - delegate return_type TypeName(paramtype parVar)
+        - 이런식으로 delegate 키워드와 함께 반환형과 인자의 타입을 지정하는 식으로 자료형을 선언한다
+    - TypeName varName = func;
+        - 이런식으로 변수에 특정 func를 지정한다
+
+# Sort()
+
+    ```
+    양수 반환 → x와 y 자리 바꿈 (x를 뒤로)
+    음수 반환 → 자리 유지
+    0   반환 → 자리 유지
+    ```
+    - CompareTo() 도 같은 규칙의 반환을 한다
+
+
+# Event 함수
+- Event의 경우 외부에서 직접 호출이 불가능하다
+
+
+# Exception Handling
+- `throw(..)` 는 예외의 타입을 지정하지 않고 던짐
+    - 없어도 컴파일에 지장 X; Just 가독성
+- `catch(..)` 를 통해 모든 예외 catch
+- try-catch는 함수를 넘어서 전달
+- `new` 같은 연산자는 오버로딩 구현부 내부에서 throw
+
+
+# Sync vs Blocking
+
+
+# Background vs Foreground
+- Background 시에 Main() 종료되면 쓰레드 강제종료
+
+
+# object는 Object 클래스의 Alias
