@@ -64,3 +64,71 @@ private:
 int main(void) {
 	auto& singleton = Singleton::GetInstance();
 }
+
+
+// SubClass Example
+#include <iostream>
+using namespace std;
+
+// 인터페이스 역할만 하는 베이스 클래스
+class Database {
+public:
+    virtual void Connect() = 0;    // 순수 가상 함수 → 직접 인스턴스 생성 불가
+    virtual void Query() = 0;
+    virtual void Disconnect() = 0;
+
+    virtual ~Database() = default;
+
+protected:
+    Database() = default;          // 서브클래스만 생성 가능
+
+private:
+    Database(const Database&) = delete;
+    Database& operator=(const Database&) = delete;
+};
+
+// 실제 구현 싱글톤
+class MySQL : public Database {
+public:
+    static MySQL& GetInstance() {
+        static MySQL instance;
+        return instance;
+    }
+
+    void Connect() override    { cout << "MySQL Connect" << endl; }
+    void Query() override      { cout << "MySQL Query" << endl; }
+    void Disconnect() override { cout << "MySQL Disconnect" << endl; }
+
+private:
+    MySQL() = default;
+    MySQL(const MySQL&) = delete;
+    MySQL& operator=(const MySQL&) = delete;
+};
+
+class PostgreSQL : public Database {
+public:
+    static PostgreSQL& GetInstance() {
+        static PostgreSQL instance;
+        return instance;
+    }
+
+    void Connect() override    { cout << "PostgreSQL Connect" << endl; }
+    void Query() override      { cout << "PostgreSQL Query" << endl; }
+    void Disconnect() override { cout << "PostgreSQL Disconnect" << endl; }
+
+private:
+    PostgreSQL() = default;
+    PostgreSQL(const PostgreSQL&) = delete;
+    PostgreSQL& operator=(const PostgreSQL&) = delete;
+};
+
+int main() {
+    // Database db; // ❌ 순수 가상 함수 때문에 직접 생성 불가
+
+    Database& db = MySQL::GetInstance(); // ✅ 베이스 참조로 받을 수 있음
+    db.Connect();
+    db.Query();
+}
+
+
+// 싱글톤에서 업캐스팅 자체는 어색하다.. GetInstance() 자체가 ::를 통해 타입을 특정하고 있기 때문이다
