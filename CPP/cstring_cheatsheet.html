@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CString MFC 총정리</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --border: #2a3347;
+    --border2: #374258;
+    --text: #e2e8f0;
+    --muted: #7d8fa8;
+    --code: #7dd3fc;
+    --accent: #3b82f6;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --purple: #c084fc;
+    --teal: #2dd4bf;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px 80px;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .header { margin-bottom: 36px; }
+  .header h1 {
+    font-size: 26px; font-weight: 700;
+    color: #fff;
+    letter-spacing: -.3px;
+    margin-bottom: 6px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header p { color: var(--muted); font-size: 13px; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 32px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .section-header h2 {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .section-header::after {
+    content: ''; flex: 1;
+    height: 0.5px; background: var(--border);
+  }
+
+  /* ── Table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border2);
+  }
+  thead th {
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  thead th:first-child { width: 38%; }
+  thead th:nth-child(2) { width: 38%; }
+  thead th:last-child { width: 24%; text-align: center; }
+
+  tbody tr {
+    border-bottom: 0.5px solid var(--border);
+    transition: background .12s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td {
+    padding: 8px 14px;
+    vertical-align: middle;
+  }
+  td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--code);
+  }
+  td:nth-child(2) {
+    color: var(--text);
+    font-size: 13px;
+  }
+  td:last-child { text-align: center; }
+
+  /* ── Badges ── */
+  .badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 99px;
+    white-space: nowrap; letter-spacing: .02em;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .b-red    { background: rgba(248,113,113,.15); color: #fca5a5; border: 1px solid rgba(248,113,113,.25); }
+  .b-amber  { background: rgba(251,191,36,.12);  color: #fcd34d; border: 1px solid rgba(251,191,36,.22); }
+  .b-green  { background: rgba(74,222,128,.12);  color: #86efac; border: 1px solid rgba(74,222,128,.22); }
+  .b-purple { background: rgba(192,132,252,.12); color: #d8b4fe; border: 1px solid rgba(192,132,252,.22); }
+  .b-teal   { background: rgba(45,212,191,.12);  color: #5eead4; border: 1px solid rgba(45,212,191,.22); }
+
+  /* ── Tip boxes ── */
+  .tip {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--amber);
+    background: rgba(251,191,36,.06);
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+    color: #cbd5e1;
+    line-height: 1.7;
+  }
+  .tip code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--code);
+    background: rgba(125,211,252,.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .tip.info  { border-color: var(--teal);  background: rgba(45,212,191,.06); }
+  .tip.warn  { border-color: #f87171;      background: rgba(248,113,113,.06); }
+
+  /* ── Two-column layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Comparison table (3 col equal) ── */
+  .cmp-table thead th:first-child  { width: 33%; }
+  .cmp-table thead th:nth-child(2) { width: 33%; }
+  .cmp-table thead th:last-child   { width: 33%; text-align: left; }
+  .cmp-table td:last-child         { text-align: left; }
+  .cmp-table td:nth-child(2) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: #a78bfa;  /* purple tint for std::string column */
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1><span>CString</span> MFC 현업 총정리</h1>
+    <p>Windows MFC 환경 기준 · std::string과의 비교 포함</p>
+  </div>
+
+  <!-- ① 선언 / 초기화 -->
+  <div class="section">
+    <div class="section-header"><h2>선언 / 초기화</h2></div>
+    <table>
+      <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>CString cs;</td><td>빈 문자열 선언</td><td></td></tr>
+        <tr><td>CString cs = _T("hello");</td><td>리터럴 초기화</td><td><span class="badge b-amber">_T() 필수</span></td></tr>
+        <tr><td>CString cs(ch, 5);</td><td>문자 ch를 5개 반복</td><td></td></tr>
+        <tr><td>CString cs = other;</td><td>복사 생성</td><td></td></tr>
+        <tr><td>CString cs(lpszStr);</td><td>LPCTSTR로부터 생성</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="tip warn">⚠️ 문자열 리터럴은 반드시 <code>_T("...")</code> 또는 <code>L"..."</code> 로 감싸야 유니코드/MBCS 양쪽 호환. 맨 문자열 그대로 쓰면 유니코드 빌드에서 컴파일 에러</div>
+  </div>
+
+  <!-- ② 길이 / 비교 -->
+  <div class="section">
+    <div class="section-header"><h2>길이 / 비교</h2></div>
+    <table>
+      <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>cs.GetLength()</td><td>문자 수 반환 (바이트 아님)</td><td></td></tr>
+        <tr><td>cs.IsEmpty()</td><td>비어있으면 TRUE</td><td></td></tr>
+        <tr><td>cs == _T("abc")</td><td>동등 비교 (연산자 오버로딩)</td><td></td></tr>
+        <tr><td>cs.Compare(_T("abc"))</td><td>대소문자 구분 비교, 음수/0/양수</td><td></td></tr>
+        <tr><td>cs.CompareNoCase(_T("abc"))</td><td>대소문자 무시 비교</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip info">💡 <code>CompareNoCase</code>는 std::string에 없는 CString 전용 기능. std에서 구현하려면 transform + compare 조합이 필요해서 CString이 편한 부분</div>
+  </div>
+
+  <!-- ③ 검색 -->
+  <div class="section">
+    <div class="section-header"><h2>검색 (Find)</h2></div>
+    <table>
+      <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>cs.Find(_T("ab"))</td><td>첫 등장 위치, 없으면 -1</td><td><span class="badge b-red">-1 체크!</span></td></tr>
+        <tr><td>cs.Find(_T("ab"), 3)</td><td>인덱스 3부터 탐색</td><td></td></tr>
+        <tr><td>cs.Find(TCHAR('a'))</td><td>문자 탐색</td><td></td></tr>
+        <tr><td>cs.ReverseFind(TCHAR('a'))</td><td>뒤에서부터 문자 탐색</td><td></td></tr>
+        <tr><td>cs.FindOneOf(_T("aeiou"))</td><td>문자셋 중 첫 등장</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="tip warn">⚠️ CString의 <code>Find</code>는 못 찾으면 <code>-1</code> 반환 (std::string의 npos와 다름!). <code>int pos</code>로 받고 <code>if (pos != -1)</code>로 체크</div>
+  </div>
+
+  <!-- ④ 자르기 -->
+  <div class="section">
+    <div class="section-header"><h2>자르기 / 추출</h2></div>
+    <table>
+      <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>cs.Mid(2, 4)</td><td>인덱스 2부터 4개 (= substr)</td><td></td></tr>
+        <tr><td>cs.Mid(3)</td><td>인덱스 3부터 끝까지</td><td></td></tr>
+        <tr><td>cs.Left(3)</td><td>앞 3글자</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.Right(3)</td><td>뒤 3글자</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.Tokenize(_T(","), pos)</td><td>구분자 기준 토큰 분리</td><td><span class="badge b-teal">split 대용</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip info">💡 <code>Tokenize</code> 사용법: <code>int pos = 0;</code> 으로 초기화 후 루프. 반환값이 빈 문자열이면 끝</div>
+  </div>
+
+  <!-- ⑤ 수정 -->
+  <div class="section">
+    <div class="section-header"><h2>수정 / 변환</h2></div>
+    <table>
+      <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>cs.MakeUpper()</td><td>대문자로 변환 (제자리)</td><td></td></tr>
+        <tr><td>cs.MakeLower()</td><td>소문자로 변환 (제자리)</td><td></td></tr>
+        <tr><td>cs.MakeReverse()</td><td>문자열 뒤집기 (제자리)</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.TrimLeft()</td><td>왼쪽 공백 제거</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.TrimRight()</td><td>오른쪽 공백 제거</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.Trim()</td><td>양쪽 공백 제거</td><td><span class="badge b-green">std엔 없음</span></td></tr>
+        <tr><td>cs.Replace(_T("a"), _T("b"))</td><td>모든 "a"를 "b"로 교체, 교체 횟수 반환</td><td></td></tr>
+        <tr><td>cs.Remove(TCHAR('a'))</td><td>특정 문자 모두 삭제</td><td></td></tr>
+        <tr><td>cs.Delete(2, 3)</td><td>인덱스 2부터 3개 삭제</td><td></td></tr>
+        <tr><td>cs.Insert(2, _T("XY"))</td><td>인덱스 2에 삽입</td><td></td></tr>
+        <tr><td>cs.Empty()</td><td>내용 비우기</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="tip">💡 CString의 <code>Replace</code>는 std와 달리 <strong>모든 등장을 한 번에</strong> 교체. std::string의 replace는 위치/길이 지정 방식이라 전체 교체하려면 루프 필요</div>
+  </div>
+
+  <!-- ⑥ 숫자 변환 -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-header"><h2>숫자 → CString</h2></div>
+      <table>
+        <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+        <tbody>
+          <tr><td>cs.Format(_T("%d"), 42)</td><td>int → CString</td><td><span class="badge b-green">편리</span></td></tr>
+          <tr><td>cs.Format(_T("%.2f"), 3.14)</td><td>double → CString</td><td></td></tr>
+          <tr><td>cs.Format(_T("%s %d"), s, n)</td><td>여러 값 조합</td><td></td></tr>
+          <tr><td>cs.AppendFormat(_T("%d"), n)</td><td>이어붙이며 포맷</td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="tip info">💡 <code>Format</code>은 std::string에 없는 CString만의 강점. std에서 하려면 <code>stringstream</code> 또는 <code>to_string</code> 조합 필요</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2>CString → 숫자</h2></div>
+      <table>
+        <thead><tr><th>코드</th><th>설명</th><th>태그</th></tr></thead>
+        <tbody>
+          <tr><td>_ttoi(cs)</td><td>CString → int</td><td></td></tr>
+          <tr><td>_ttol(cs)</td><td>CString → long</td><td></td></tr>
+          <tr><td>_ttof(cs)</td><td>CString → double</td><td></td></tr>
+          <tr><td>_tcstol(cs, NULL, 16)</td><td>16진수 파싱</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ⑦ std::string 변환 -->
+  <div class="section">
+    <div class="section-header"><h2>CString ↔ std::string 변환</h2></div>
+    <table>
+      <thead><tr><th>방향</th><th>코드</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td>CString → std</td><td>std::string ss(CT2CA(cs));</td><td>유니코드 환경 (권장)</td></tr>
+        <tr><td>CString → std</td><td>std::string ss(cs);</td><td>MBCS 환경만 가능</td></tr>
+        <tr><td>CString → std</td><td>std::wstring ws(cs);</td><td>유니코드 빌드, wstring으로</td></tr>
+        <tr><td>std → CString</td><td>CString cs(ss.c_str());</td><td>MBCS 환경</td></tr>
+        <tr><td>std → CString</td><td>CString cs(CA2CT(ss.c_str()));</td><td>유니코드 환경 (권장)</td></tr>
+      </tbody>
+    </table>
+    <div class="tip warn">⚠️ 유니코드 빌드 (대부분의 현대 MFC)에서는 <code>CT2CA</code> / <code>CA2CT</code> 매크로 사용. <code>&lt;atlconv.h&gt;</code> 포함 필요. 그냥 캐스팅하면 데이터 손실 위험</div>
+  </div>
+
+  <!-- ⑧ std::string과 비교 -->
+  <div class="section">
+    <div class="section-header"><h2>CString vs std::string 메서드 비교</h2></div>
+    <table class="cmp-table">
+      <thead><tr><th>CString</th><th>std::string</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>cs.GetLength()</td><td>s.size()</td><td>길이</td></tr>
+        <tr><td>cs.IsEmpty()</td><td>s.empty()</td><td>빈 문자열 체크</td></tr>
+        <tr><td>cs.Find("ab")</td><td>s.find("ab")</td><td>못 찾으면 CString=-1, std=npos</td></tr>
+        <tr><td>cs.ReverseFind('a')</td><td>s.rfind('a')</td><td>뒤에서 탐색</td></tr>
+        <tr><td>cs.Mid(2, 4)</td><td>s.substr(2, 4)</td><td>부분 문자열</td></tr>
+        <tr><td>cs.Left(3)</td><td>s.substr(0, 3)</td><td>앞부분 추출</td></tr>
+        <tr><td>cs.Right(3)</td><td>s.substr(s.size()-3)</td><td>뒷부분 추출</td></tr>
+        <tr><td>cs.MakeUpper()</td><td>transform(..., ::toupper)</td><td>대문자 변환</td></tr>
+        <tr><td>cs.Trim()</td><td>직접 구현 필요</td><td>공백 제거</td></tr>
+        <tr><td>cs.Replace("a","b")</td><td>직접 구현 필요</td><td>전체 교체</td></tr>
+        <tr><td>cs.Format("%d", n)</td><td>to_string(n)</td><td>숫자→문자열</td></tr>
+        <tr><td>cs.Compare("abc")</td><td>s.compare("abc")</td><td>비교</td></tr>
+        <tr><td>cs.CompareNoCase("abc")</td><td>직접 구현 필요</td><td>대소문자 무시 비교</td></tr>
+        <tr><td>cs.Tokenize(",", pos)</td><td>getline(ss, t, ',')</td><td>토큰 분리</td></tr>
+        <tr><td>cs.Delete(2, 3)</td><td>s.erase(2, 3)</td><td>삭제</td></tr>
+        <tr><td>cs.Insert(2, "XY")</td><td>s.insert(2, "XY")</td><td>삽입</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ⑨ 자주 실수하는 것들 -->
+  <div class="section">
+    <div class="section-header"><h2>자주 실수하는 것들</h2></div>
+    <table>
+      <thead><tr><th>실수</th><th>올바른 방법</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>Find 결과를 npos로 체크</td><td>CString은 -1로 체크 (npos 아님)</td><td><span class="badge b-red">버그</span></td></tr>
+        <tr><td>리터럴에 _T() 미사용</td><td>_T("...") 또는 L"..." 로 감싸기</td><td><span class="badge b-red">컴파일 에러</span></td></tr>
+        <tr><td>유니코드 빌드에서 직접 캐스팅</td><td>CT2CA / CA2CT 매크로 사용</td><td><span class="badge b-red">데이터 손실</span></td></tr>
+        <tr><td>LPCTSTR과 LPCSTR 혼용</td><td>유니코드면 LPCTSTR, MBCS면 LPCSTR</td><td><span class="badge b-amber">주의</span></td></tr>
+        <tr><td>GetBuffer 후 ReleaseBuffer 미호출</td><td>GetBuffer → 수정 → ReleaseBuffer 쌍으로</td><td><span class="badge b-red">버그</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip warn">⚠️ <code>GetBuffer(n)</code>로 내부 버퍼에 직접 접근할 때는 반드시 <code>ReleaseBuffer()</code> 호출. 안 하면 길이 정보가 업데이트 안 돼서 GetLength()가 엉뚱한 값 반환</div>
+  </div>
+
+  <div class="footer">
+    <span>CString MFC 현업 총정리 · Windows MFC</span>
+    <span>generated by Claude</span>
+  </div>
+
+</div>
+</body>
+</html>

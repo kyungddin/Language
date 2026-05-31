@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>헝가리안 표기법 총정리</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --border: #2a3347;
+    --border2: #374258;
+    --text: #e2e8f0;
+    --muted: #7d8fa8;
+    --code: #7dd3fc;
+    --accent: #3b82f6;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --purple: #c084fc;
+    --teal: #2dd4bf;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px 80px;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .header { margin-bottom: 36px; }
+  .header h1 {
+    font-size: 26px; font-weight: 700;
+    color: #fff; letter-spacing: -.3px; margin-bottom: 6px;
+  }
+  .header h1 span { color: var(--accent); }
+  .header p { color: var(--muted); font-size: 13px; }
+
+  .section { margin-bottom: 32px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .section-header h2 {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); white-space: nowrap;
+  }
+  .section-header::after {
+    content: ''; flex: 1;
+    height: 0.5px; background: var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border2);
+  }
+  thead th {
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  thead th:first-child  { width: 15%; }
+  thead th:nth-child(2) { width: 25%; }
+  thead th:nth-child(3) { width: 35%; }
+  thead th:last-child   { width: 25%; text-align: center; }
+
+  tbody tr {
+    border-bottom: 0.5px solid var(--border);
+    transition: background .12s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  td { padding: 8px 14px; vertical-align: middle; }
+  td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    color: var(--amber);
+  }
+  td:nth-child(2) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+  }
+  td:nth-child(3) { color: var(--text); font-size: 13px; }
+  td:last-child   { text-align: center; }
+
+  /* 2열 테이블 (접두사 / 예시 / 설명) */
+  .two-col-table thead th:first-child  { width: 20%; }
+  .two-col-table thead th:nth-child(2) { width: 35%; }
+  .two-col-table thead th:last-child   { width: 45%; text-align: left; }
+  .two-col-table td:last-child         { text-align: left; color: var(--text); }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 99px;
+    white-space: nowrap; letter-spacing: .02em;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .b-red    { background: rgba(248,113,113,.15); color: #fca5a5; border: 1px solid rgba(248,113,113,.25); }
+  .b-amber  { background: rgba(251,191,36,.12);  color: #fcd34d; border: 1px solid rgba(251,191,36,.22); }
+  .b-green  { background: rgba(74,222,128,.12);  color: #86efac; border: 1px solid rgba(74,222,128,.22); }
+  .b-purple { background: rgba(192,132,252,.12); color: #d8b4fe; border: 1px solid rgba(192,132,252,.22); }
+  .b-teal   { background: rgba(45,212,191,.12);  color: #5eead4; border: 1px solid rgba(45,212,191,.22); }
+  .b-blue   { background: rgba(59,130,246,.12);  color: #93c5fd; border: 1px solid rgba(59,130,246,.22); }
+
+  .tip {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--amber);
+    background: rgba(251,191,36,.06);
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+    color: #cbd5e1;
+    line-height: 1.7;
+  }
+  .tip code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--code);
+    background: rgba(125,211,252,.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .tip.info { border-color: var(--teal);  background: rgba(45,212,191,.06); }
+  .tip.warn { border-color: #f87171;      background: rgba(248,113,113,.06); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  .footer {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1><span>헝가리안 표기법</span> 총정리</h1>
+    <p>Windows MFC / Win32 현업 기준 · 시스템 헝가리안 중심</p>
+  </div>
+
+  <!-- ① 기본 타입 접두사 -->
+  <div class="section">
+    <div class="section-header"><h2>기본 타입 접두사</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>b</td><td>bIsValid</td><td>BOOL / bool</td><td></td></tr>
+        <tr><td>n</td><td>nCount</td><td>int (number)</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>i</td><td>iIndex</td><td>int (index 강조)</td><td></td></tr>
+        <tr><td>u</td><td>uSize</td><td>unsigned int</td><td></td></tr>
+        <tr><td>l</td><td>lValue</td><td>long</td><td></td></tr>
+        <tr><td>ul</td><td>ulFlags</td><td>unsigned long</td><td></td></tr>
+        <tr><td>w</td><td>wParam</td><td>WORD (16bit unsigned)</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>dw</td><td>dwStyle</td><td>DWORD (32bit unsigned)</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>f</td><td>fRatio</td><td>float</td><td></td></tr>
+        <tr><td>d</td><td>dAngle</td><td>double</td><td></td></tr>
+        <tr><td>c</td><td>cLetter</td><td>char</td><td></td></tr>
+        <tr><td>ch</td><td>chInput</td><td>TCHAR (유니코드 대응 char)</td><td></td></tr>
+        <tr><td>by</td><td>byData</td><td>BYTE (unsigned char)</td><td></td></tr>
+        <tr><td>e</td><td>eState</td><td>enum</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ② 문자열 접두사 -->
+  <div class="section">
+    <div class="section-header"><h2>문자열 접두사</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>sz</td><td>szName</td><td>null 종료 문자열 (char[])</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>wsz</td><td>wszPath</td><td>null 종료 와이드 문자열 (wchar_t[])</td><td></td></tr>
+        <tr><td>str</td><td>strTitle</td><td>std::string</td><td></td></tr>
+        <tr><td>cs</td><td>csMessage</td><td>CString (MFC)</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>lpsz</td><td>lpszText</td><td>LPSTR / 문자열 포인터</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>lpctstr</td><td>—</td><td>const TCHAR* (읽기 전용 문자열)</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ③ 포인터 / 핸들 접두사 -->
+  <div class="section">
+    <div class="section-header"><h2>포인터 / 핸들 접두사</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>p</td><td>pData</td><td>포인터 (일반)</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>lp</td><td>lpBuffer</td><td>long pointer (Win32 레거시)</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>pp</td><td>ppObject</td><td>포인터의 포인터</td><td></td></tr>
+        <tr><td>h</td><td>hWnd, hDC</td><td>HANDLE 계열</td><td><span class="badge b-blue">자주 씀</span></td></tr>
+        <tr><td>sp</td><td>spObject</td><td>shared_ptr</td><td><span class="badge b-green">모던 C++</span></td></tr>
+        <tr><td>up</td><td>upResource</td><td>unique_ptr</td><td><span class="badge b-green">모던 C++</span></td></tr>
+        <tr><td>wp</td><td>wpObserver</td><td>weak_ptr</td><td><span class="badge b-green">모던 C++</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip info">💡 <code>lp</code>는 16bit 시절 "long pointer"의 잔재. 현대 32/64bit에서는 <code>p</code>와 동일하지만 Win32 API가 여전히 <code>lp</code>를 씀 (LPSTR, LPVOID 등)</div>
+  </div>
+
+  <!-- ④ 클래스 / 구조체 / 컨테이너 -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-header"><h2>클래스 / 구조체</h2></div>
+      <table class="two-col-table">
+        <thead><tr><th>접두사</th><th>예시</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td>C</td><td>CMyClass</td><td>MFC 클래스</td></tr>
+          <tr><td>T</td><td>TPlayer</td><td>일반 템플릿 클래스</td></tr>
+          <tr><td>I</td><td>IDrawable</td><td>인터페이스 (순수 가상)</td></tr>
+          <tr><td>S / st</td><td>POINT, stData</td><td>구조체 (struct)</td></tr>
+          <tr><td>E / e</td><td>EState</td><td>열거형 (enum)</td></tr>
+          <tr><td>m_</td><td>m_nCount</td><td>멤버 변수</td></tr>
+          <tr><td>g_</td><td>g_hInstance</td><td>전역 변수</td></tr>
+          <tr><td>s_</td><td>s_nRefCount</td><td>static 멤버 변수</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2>컨테이너 / 배열</h2></div>
+      <table class="two-col-table">
+        <thead><tr><th>접두사</th><th>예시</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td>a / arr</td><td>aItems, arrNames</td><td>배열</td></tr>
+          <tr><td>v / vec</td><td>vScores</td><td>vector</td></tr>
+          <tr><td>lst</td><td>lstNodes</td><td>list</td></tr>
+          <tr><td>map</td><td>mapUsers</td><td>map</td></tr>
+          <tr><td>set</td><td>setVisited</td><td>set</td></tr>
+          <tr><td>q</td><td>qJobs</td><td>queue</td></tr>
+          <tr><td>stk</td><td>stkHistory</td><td>stack</td></tr>
+          <tr><td>cb</td><td>cbSize</td><td>count of bytes (크기)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ⑤ MFC / Win32 자주 보이는 패턴 -->
+  <div class="section">
+    <div class="section-header"><h2>MFC / Win32에서 자주 보이는 실전 패턴</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>m_h</td><td>m_hWnd, m_hDC</td><td>멤버 핸들</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>m_p</td><td>m_pDocument</td><td>멤버 포인터</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>m_n</td><td>m_nID</td><td>멤버 정수</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>m_b</td><td>m_bVisible</td><td>멤버 BOOL</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>m_str / m_cs</td><td>m_strTitle</td><td>멤버 문자열</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>IDC_</td><td>IDC_BUTTON1</td><td>컨트롤 리소스 ID</td><td><span class="badge b-amber">리소스</span></td></tr>
+        <tr><td>IDD_</td><td>IDD_DIALOG1</td><td>다이얼로그 리소스 ID</td><td><span class="badge b-amber">리소스</span></td></tr>
+        <tr><td>IDR_</td><td>IDR_MAINFRAME</td><td>메뉴/툴바 리소스 ID</td><td><span class="badge b-amber">리소스</span></td></tr>
+        <tr><td>On</td><td>OnBnClickedOk</td><td>이벤트 핸들러 함수</td><td><span class="badge b-purple">MFC</span></td></tr>
+        <tr><td>Do</td><td>DoDataExchange</td><td>DDX 함수</td><td><span class="badge b-purple">MFC</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ⑥ 시스템 vs 앱 헝가리안 -->
+  <div class="section">
+    <div class="section-header"><h2>시스템 헝가리안 vs 앱 헝가리안</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>시스템 헝가리안</td><td>nCount, szName, hWnd</td><td>데이터 타입을 나타냄 (MFC/Win32 전통)</td><td><span class="badge b-blue">전통 방식</span></td></tr>
+        <tr><td>앱 헝가리안</td><td>usName, safeStr</td><td>의미/용도를 나타냄 (Joel Spolsky 제안)</td><td><span class="badge b-green">현대적</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip">💡 현업 MFC 코드는 대부분 <strong>시스템 헝가리안</strong>. 앱 헝가리안은 "unsafe vs safe 문자열" 구분처럼 의미 기반으로 접두사를 붙이는 방식인데 실제 현장에서는 거의 안 보임</div>
+  </div>
+
+  <!-- ⑦ 현대 C++에서의 시각 -->
+  <div class="section">
+    <div class="section-header"><h2>현대 C++에서의 시각</h2></div>
+    <table>
+      <thead><tr><th>접두사</th><th>예시</th><th>타입 / 의미</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>권장 O</td><td>m_, g_, s_ 스코프 접두사</td><td>변수의 범위(scope)를 나타냄 → 여전히 유용</td><td><span class="badge b-green">유지</span></td></tr>
+        <tr><td>권장 △</td><td>p, lp 포인터 접두사</td><td>스마트 포인터 시대엔 의미 희석, 레거시 유지 목적</td><td><span class="badge b-amber">상황따라</span></td></tr>
+        <tr><td>권장 X</td><td>n, dw, w 타입 접두사</td><td>IDE + auto 타입 추론으로 가독성 기여 미미</td><td><span class="badge b-red">현대엔 지양</span></td></tr>
+      </tbody>
+    </table>
+    <div class="tip warn">⚠️ Google / LLVM / ISO C++ 가이드라인은 헝가리안 표기법을 <strong>권장하지 않음</strong>. 단, MFC 레거시 코드베이스에서는 기존 스타일 유지가 현실적. 새 코드를 추가할 때도 주변 코드 스타일을 따르는 게 일반적</div>
+  </div>
+
+  <div class="footer">
+    <span>헝가리안 표기법 총정리 · Windows MFC / Win32</span>
+    <span>generated by Claude</span>
+  </div>
+
+</div>
+</body>
+</html>
